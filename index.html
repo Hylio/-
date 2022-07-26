@@ -16,9 +16,15 @@
     <br/> 
     <div style="border: 2px dashed #ccc;width:320px;text-align:center;">      
         <label for="sitename">添加食谱:</label>  
-        <input type="text" id="foodname" name="sitename" class="text"/>  
+        <input type="text" id="foodname"  class="text"/>  
         <br/>  
         <input type="button" onclick="save()" value="点击添加"/>  
+    </div>
+    <div style="border: 2px dashed #ccc;width:320px;text-align:center;">      
+        <label for="sitename">删除食谱:</label>  
+        <input type="text" id="del_foodname"  class="text"/>  
+        <br/>  
+        <input type="button" onclick="del()" value="点击删除"/>  
     </div>
     <div id="list">
 
@@ -28,6 +34,12 @@
             var foodname = document.getElementById("foodname").value;
             localStorage.setItem(foodname, "尚未roll过");
             alert("添加成功！");
+        }
+
+        function del(){
+            var foodname = document.getElementById("del_foodname").value;
+            localStorage.removeItem(foodname);
+            alert("删除成功！")
         }
 
         function chooseFood(){
