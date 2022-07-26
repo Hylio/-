@@ -6,41 +6,74 @@
 </head>
 <body>
     <h1 id="diet">浩宝今天吃什么</h1>
-    <button type="button" onclick="chooseFood()">Roll</button>
+    <button type="button" onclick="chooseFood()" width:300px height:200px >Roll</button>
+    <br/>  
+    <br/>
+    <br/> 
+    <button type="button" onclick="showall()" width:300px height:200px >查看所有食谱</button>
+    <br/>  
+    <br/>
+    <br/> 
+    <div style="border: 2px dashed #ccc;width:320px;text-align:center;">      
+        <label for="sitename">添加食谱:</label>  
+        <input type="text" id="foodname" name="sitename" class="text"/>  
+        <br/>  
+        <input type="button" onclick="save()" value="点击添加"/>  
+    </div>
+    <div id="list">
 
-<script>
-    var foods = new Array();
-    foods.push("饺子")
-    foods.push("小火锅")
-    foods.push("奶茶")
-    foods.push("抄手")
-    foods.push("手工面")
-    foods.push("翘脚牛肉")
-    foods.push("卤肉饭")
-    foods.push("铁板烧")
-    foods.push("食堂")
-    foods.push("猪脚饭")
-    foods.push("burger")
+    </div>
+    <script>
+        function save(){
+            var foodname = document.getElementById("foodname").value;
+            localStorage.setItem(foodname, "尚未roll过");
+            alert("添加成功！");
+        }
 
-    function chooseFood(){
-        r = randomNum(0, foods.length-1);
-        document.getElementById("diet").innerHTML = "浩宝今天吃"+foods[r];
-    }
+        function chooseFood(){
+            if (localStorage.length>0){
+                var r = randomNum(0, localStorage.length-1);
+                var foodname = localStorage.key(r);
+                document.getElementById("diet").innerHTML = "浩宝今天吃" + foodname;
+                var time = Date();
+                localStorage.removeItem(foodname);
+                localStorage.setItem(foodname, time)
+            }else{
+                document.getElementById("diet").innerHTML = "浩宝今天吃空气";
+            }
+        }
 
-    function randomNum(minNum,maxNum){ 
-        switch(arguments.length){ 
-            case 1: 
-                return parseInt(Math.random()*minNum+1,10); 
-            break; 
-            case 2: 
-                return parseInt(Math.random()*(maxNum-minNum+1)+minNum,10); 
-            break; 
-                default: 
-                    return 0; 
+        function showall(){
+            var list = document.getElementById("list");
+            if (localStorage.length>0){
+                var result = "<table border='1'>";
+                result += "<tr><td>食谱</td><td>上次roll到</td></tr>";
+                for (var i=0; i<localStorage.length; i++){
+                    var name = localStorage.key(i);
+                    var last = localStorage.getItem(name);
+                    result += "<tr><td>"+name+"</td><td>"+last+"</td></tr>";
+                }
+                result += "</table>";
+                list.innerHTML = result;
+            }else{
+                list.innerHTML = "没有食谱哦~"
+            }
+        }
+
+        function randomNum(minNum,maxNum){ 
+            switch(arguments.length){ 
+                case 1: 
+                    return parseInt(Math.random()*minNum+1,10); 
                 break; 
+                case 2: 
+                    return parseInt(Math.random()*(maxNum-minNum+1)+minNum,10); 
+                break; 
+                    default: 
+                        return 0; 
+                    break; 
+            } 
         } 
-    } 
-</script>
+    </script>
 
 </body>
 </html>
